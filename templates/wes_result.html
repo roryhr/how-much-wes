@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>How Much Wes Anderson</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+  <main class="container text-center">
+    <h1>How Much Wes Anderson?</h1>
+    <div class="card mx-auto" style="width: 30rem;">
+      <img src="/{{ image_link }}" class="card-img-top" alt="Image">
+      <div class="card-body">
+        <p class="card-text">{{ result }}</p>
+      </div>
+    </div>
+    <p>
+      Well that was cool! Let's go
+      <a href="{{url_for('upload_file')}}">home</a>.
+    </p>
+  </main>
+</body>
+
+</html>
