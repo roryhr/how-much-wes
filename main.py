@@ -75,8 +75,8 @@ def predict(image_file):
         Value from 0-1 representing the probability it is Wes
     """
 
-    img = tf.keras.preprocessing.image.load_img(image_file, target_size=(160, 160))
-    img_array = tf.keras.preprocessing.image.img_to_array(img)
+    image = tf.keras.preprocessing.image.load_img(image_file, target_size=(160, 160))
+    img_array = tf.keras.preprocessing.image.img_to_array(image)
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
 
     classification_result = classifier.predict(img_array)
