@@ -3,6 +3,10 @@
 It is live on Fly.io <br>
 https://falling-dew-7859.fly.dev/
 
+Upgraded from Python 3.8 to 3.12.
+TensorFlow + Keras
+
+
 
 # Development Quickstart
 
@@ -14,9 +18,9 @@ docker run --publish 8080:8080 slim-wes
 
 Run locally with the Flask debug server.
 ```
-conda create -n py38 python=3.8
+conda create -n py312 python=3.12
 pip install -r requirements.txt
-conda activate py38
+conda activate py12
 flask --app main --debug run
 ```
 
@@ -24,10 +28,10 @@ Access at <br>
 http://localhost:5000/
 
 
-
 Run the tests:
 ```
-conda install pytest
+conda activate py12
+pip install pytest
 pytest tests
 ```
 
@@ -41,21 +45,15 @@ flyctl deploy
 
 # Getting the data
 
-Download trailers from YouTube.
+Download trailers from YouTube. `pytube` is no longer maintained and doesn't work. `yt-dlp` works for now.  
 
-```
-from pytube import YouTube
+```commandline
+yt-dlp "https://www.youtube.com/watch?v=sOnqjkJTMaA"   
 
-def download_youtube(url):
-    yt = YouTube(url)
+mkdir  thriller
 
-    (yt.streams
-        .filter(progressive=True, file_extension='mp4')
-        .order_by('resolution')
-        .desc()
-        .first()
-        .download()
-    )
+ffmpeg -i "Michael Jackson - Thriller (Official 4K Video) [sOnqjkJTMaA].webm" \
+-vf "fps=1"  -q:v 2 thriller/thriller_%03d.jpeg
 
 ```
 

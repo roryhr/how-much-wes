@@ -1,4 +1,3 @@
-import pytest
 from main import allowed_file, predict
 
 
