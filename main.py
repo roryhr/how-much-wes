@@ -8,12 +8,13 @@ Access at http://localhost:5000/
 TensorFlow was using 800MB of memory so I ported this to TensorFlow Lite 
 to stay on the free tier of Fly.
 """
+
 import os
 from pathlib import Path
 import secrets
 
-
-from tflite_support.task import vision
+import numpy as np
+import tensorflow as tf
 from flask import (
     Flask,
     render_template,
@@ -32,7 +33,7 @@ app.secret_key = secrets.token_hex()
 app.config["UPLOAD_FOLDER"] = "static"
 
 
-classifier = vision.ImageClassifier.create_from_file("model.tflite")
+classifier = tf.keras.models.load_model("wes_mobilnetv2_transfer.keras")
 
 
 def allowed_file(filename):
@@ -74,9 +75,12 @@ def predict(image_file):
         Value from 0-1 representing the probability it is Wes
     """
 
-    image = vision.TensorImage.create_from_file(image_file)
-    classification_result = classifier.classify(image)
-    return classification_result.classifications[0].categories[0].score
+    image = tf.keras.preprocessing.image.load_img(image_file, target_size=(160, 160))
+    img_array = tf.keras.preprocessing.image.img_to_array(image)
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+
+    classification_result = classifier.predict(img_array)
+    return classification_result[0][0]
 
 
 @app.route("/wes_probability/<filename>")
